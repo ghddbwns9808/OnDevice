@@ -1,19 +1,28 @@
 package com.example.ondevicechap3
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.ImageDecoder
 import android.graphics.Paint
+import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.graphics.alpha
+import androidx.core.graphics.blue
+import androidx.core.graphics.green
+import androidx.core.graphics.red
 import com.example.ondevicechap3.databinding.ActivityFaceDetectBinding
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
@@ -21,12 +30,14 @@ import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetector
 import com.google.mlkit.vision.face.FaceDetectorOptions
 
+private const val TAG = "FaceDetectActivity"
 class FaceDetectActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFaceDetectBinding
     private lateinit var bitmap: Bitmap
 
     private lateinit var detector: FaceDetector
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFaceDetectBinding.inflate(layoutInflater)
@@ -65,15 +76,25 @@ class FaceDetectActivity : AppCompatActivity() {
     fun Bitmap.drawFaceBoundBox(faces: List<Face>): Bitmap?{
         val newBitmap = copy(Bitmap.Config.ARGB_8888,true)
         val canvas = Canvas(newBitmap)
+        val width = newBitmap.width
+        Log.d(TAG, "drawFaceBoundBox: $width")
+
+        val blur = BlurMaskFilter((width/90).toFloat(), BlurMaskFilter.Blur.NORMAL)
 
         faces.forEach { face ->
             val bounds = face.boundingBox
+            val rad = minOf(bounds.width(), bounds.height()) /2
+            val rgb = newBitmap.getPixel(bounds.centerX(), bounds.centerY())
+            Log.d(TAG, "drawFaceBoundBox: $rgb")
+            val bluredRGB = Color.argb(246, rgb.red, rgb.green, rgb.blue)
+
             Paint().apply {
-                color = Color.GREEN
-                style = Paint.Style.STROKE
-                strokeWidth = 5.0f
+                color = bluredRGB
+                style = Paint.Style.FILL
+                strokeWidth = (width/70).toFloat()
                 isAntiAlias = true
-                canvas.drawRect(bounds, this)
+                maskFilter = blur
+                canvas.drawCircle(bounds.centerX().toFloat(), bounds.centerY().toFloat(), rad.toFloat(), this)
             }
         }
 

@@ -91,7 +91,7 @@ class ImageLabelingActivity : AppCompatActivity() {
                         labelText = binding.tvLabels.text.toString()
                         labelText += "${idx+1}\n"
                         labels.forEachIndexed { index, thisLabel ->
-                            if (thisLabel.confidence > 0.7f) {
+                            if (thisLabel.confidence > 0.5f) {
                                 labelText += thisLabel.text +
                                         ": ${((thisLabel.confidence * 10000).toInt()).toFloat() / 100.0f}%, "
                                 if (index % 2 == 1)
