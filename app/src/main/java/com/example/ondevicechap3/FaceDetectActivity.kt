@@ -14,22 +14,22 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import com.example.ondevicechap3.databinding.ActivityMainBinding
+import com.example.ondevicechap3.databinding.ActivityFaceDetectBinding
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetector
 import com.google.mlkit.vision.face.FaceDetectorOptions
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class FaceDetectActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityFaceDetectBinding
     private lateinit var bitmap: Bitmap
 
     private lateinit var detector: FaceDetector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityFaceDetectBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val highAccuracyOpts = FaceDetectorOptions.Builder()
