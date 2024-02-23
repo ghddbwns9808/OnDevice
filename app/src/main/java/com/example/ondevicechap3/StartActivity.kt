@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.ondevicechap3.databinding.ActivityStartBinding
+import com.example.ondevicechap3.livedetection.LiveDetectActivity
 
 class StartActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStartBinding
@@ -19,6 +20,11 @@ class StartActivity : AppCompatActivity() {
 
         binding.btnImageLabel.setOnClickListener {
             val intent = Intent(this, ImageLabelingActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnLiveDetection.setOnClickListener {
+            val intent = Intent(this, LiveDetectActivity::class.java)
             startActivity(intent)
         }
     }

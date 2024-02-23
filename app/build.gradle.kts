@@ -50,4 +50,8 @@ dependencies {
     implementation("com.google.mlkit:image-labeling:17.0.8")
     implementation("com.google.mlkit:object-detection:17.0.1")
 
+    implementation ("androidx.camera:camera-camera2:1.3.1")
+    implementation ("androidx.camera:camera-lifecycle:1.3.1")
+    implementation ("androidx.camera:camera-view:1.3.1")
+
 }
